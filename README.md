@@ -1,5 +1,5 @@
 # StepperView
-A custom view that morphs base on the quantity of steps provided
+An Android CustomView that morphs base on the quantity of steps provided
 
 ### Usage
   At the time this StepperView has only one attribute, feel free to give me ideas for new properties !!
