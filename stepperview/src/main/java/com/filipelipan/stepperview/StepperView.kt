@@ -245,7 +245,7 @@ class StepperView : ConstraintLayout {
         }
     }
 
-    private fun resetStepper() {
+    fun resetStepper() {
 
         checkViews.forEach {
             it.unChecked()
