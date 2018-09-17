@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">StepperView</string>
+    <string name="previous">previous</string>
+    <string name="next">next</string>
+</resources>

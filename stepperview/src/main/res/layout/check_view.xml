@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/root"
+    android:background="@android:color/transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        tools:text="1"
+        android:textColor="@color/steper_view_gray"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:enabled="true"
+        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/button"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        tools:text="1"
+        android:textColor="@color/steper_view_gray"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:enabled="true"
+        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/background_view"
+        android:background="@drawable/bg_stepper"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        tools:text="1"
+        android:textColor="@color/steper_view_gray"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:enabled="true"
+        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        android:id="@+id/check_view_background"
+        android:background="@drawable/bg_stepper_gray"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        tools:text="1"
+        android:textColor="@color/steper_view_gray"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:enabled="true"
+        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/mark_view_background"
+        android:visibility="invisible"
+        android:background="@drawable/bg_stepper_green"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+</FrameLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CheckView">
+        <attr name="cv_text" format="string" />
+    </declare-styleable>
+
+
+    <declare-styleable name="StepperView">
+        <attr name="quantity" format="integer" />
+    </declare-styleable>
+
+</resources>
