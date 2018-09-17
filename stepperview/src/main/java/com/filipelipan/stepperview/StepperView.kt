@@ -24,11 +24,6 @@ class StepperView : ConstraintLayout {
     var count: Int = 2;
     var currentStep: Int = 0;
 
-    var stepStatus: Int = 0
-
-    val STATUS_UNCHECK = 0
-    val STATUS_CHECK = 1
-    val STATUS_COMPLETED = 2
 
 
     constructor(context: Context) : super(context) {
@@ -49,7 +44,7 @@ class StepperView : ConstraintLayout {
 
         count = attr.getInt(R.styleable.StepperView_quantity, 2) - 1
 
-        if(count < 1){
+        if (count < 1) {
             count = 1
         }
 
@@ -181,13 +176,10 @@ class StepperView : ConstraintLayout {
 
     fun goToNextStep() {
 
-        stepStatus = STATUS_UNCHECK
-
         if (checkViews.get(currentStep).isChecked()) {
 
             if (isInitialStep()) {
                 checkViews.get(currentStep).markAsFinished()
-                stepStatus = STATUS_COMPLETED
                 incrementCurrentStep()
             } else {
                 val constraintSet = ConstraintSet()
@@ -196,16 +188,14 @@ class StepperView : ConstraintLayout {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     TransitionManager.beginDelayedTransition(this, getCompleteLineTransition(checkViews.get(currentStep)))
-                }else{
+                } else {
                     checkViews.get(currentStep).markAsFinished()
-                    stepStatus = STATUS_COMPLETED
                     incrementCurrentStep()
                 }
-                constraintSet.applyTo( this)
+                constraintSet.applyTo(this)
             }
         } else {
             checkViews.get(currentStep).checkButton()
-            stepStatus = STATUS_CHECK
             incrementCurrentStep()
         }
 
@@ -217,26 +207,21 @@ class StepperView : ConstraintLayout {
 
             if (isInitialStep()) {
                 checkViews.get(currentStep).checkButton()
-                stepStatus = STATUS_CHECK
             } else {
                 val constraintSet = ConstraintSet()
                 constraintSet.clone(this)
-                constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep-1).id, ConstraintSet.END, 5)
+                constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep - 1).id, ConstraintSet.END, 5)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     TransitionManager.beginDelayedTransition(this, getCompleteLineReverseTransition(checkViews.get(currentStep)))
                     checkViews.get(currentStep).checkButton()
-                    stepStatus = STATUS_CHECK
-                }else{
+                } else {
                     checkViews.get(currentStep).checkButton()
-                    stepStatus = STATUS_CHECK
                 }
-                constraintSet.applyTo( this)
+                constraintSet.applyTo(this)
             }
         } else {
             checkViews.get(currentStep).unCheckButton()
-            stepStatus = STATUS_UNCHECK
-//            decrementCurrentStep()
         }
     }
 
@@ -248,17 +233,32 @@ class StepperView : ConstraintLayout {
         return currentStep == count
     }
 
-    private fun incrementCurrentStep(){
+    private fun incrementCurrentStep() {
         if (currentStep < count && checkViews.get(currentStep).isMarkAsFinished()) {
             currentStep++
         }
     }
 
-    private fun decrementCurrentStep(){
-        if (currentStep > 0 && checkViews.get(currentStep).unChecked() ) {
+    private fun decrementCurrentStep() {
+        if (currentStep > 0 && checkViews.get(currentStep).unChecked()) {
             currentStep--
         }
     }
+
+    private fun resetStepper() {
+
+        checkViews.forEach {
+            it.unChecked()
+        }
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(this)
+
+        constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(0).id, ConstraintSet.END, 0)
+
+        constraintSet.applyTo(this)
+    }
+
 
     private fun getCompleteLineTransition(checkView: CheckView): TransitionSet? {
 
@@ -267,7 +267,6 @@ class StepperView : ConstraintLayout {
                     .addTransition(ChangeBounds().setDuration(200).addTarget(completeLineView.id).addListener(object : Transition.TransitionListener {
                         override fun onTransitionEnd(p0: Transition?) {
                             checkView.markAsFinished()
-                            stepStatus = STATUS_COMPLETED
                             incrementCurrentStep()
                         }
 
@@ -318,7 +317,6 @@ class StepperView : ConstraintLayout {
 
                         override fun onTransitionStart(p0: Transition?) {
                             checkView.checkButton()
-                            stepStatus = STATUS_CHECK
                         }
 
                     }))
@@ -337,7 +335,6 @@ class StepperView : ConstraintLayout {
         //end
 
         ss.currentStep = this.currentStep
-        ss.stepStatus = this.stepStatus
 
 
         return ss
@@ -354,30 +351,19 @@ class StepperView : ConstraintLayout {
         //end
 
         this.currentStep = state.currentStep
-        this.stepStatus = state.stepStatus
 
-        moveToStep(currentStep= currentStep,stepStatus = stepStatus)
+        recoverState(currentStep = currentStep)
     }
 
-    private fun moveToStep(currentStep: Int, stepStatus: Int = 0) {
+    private fun recoverState(currentStep: Int = 0) {
 
-        if(currentStep > 0){
+        if (currentStep > 0) {
             val constraintSet = ConstraintSet()
             constraintSet.clone(this)
 
-            when(stepStatus){
-                STATUS_UNCHECK -> {
-                    constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep-1).id, ConstraintSet.END, 5)
-                }
-                STATUS_CHECK -> {
-                    constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep-1).id, ConstraintSet.END, 5)
-                }
-                STATUS_COMPLETED -> {
-                    constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep).id, ConstraintSet.END, 5)
-                }
-            }
+            constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep - 1).id, ConstraintSet.END, 5)
 
-            constraintSet.applyTo( this)
+            constraintSet.applyTo(this)
         }
     }
 
