@@ -54,6 +54,11 @@ class CheckView  : LinearLayout {
         button.setText(text)
     }
 
+    fun setLabelText(text: String){
+        label_text.visibility = View.VISIBLE
+        label_text.setText(text)
+    }
+
     fun unCheckButton(){
         status = STATUS_UNCHECK
 

@@ -10,8 +10,8 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/checkview_size"
+        android:layout_height="@dimen/checkview_size"
         tools:text="1"
         android:textColor="@color/steper_view_gray"
         android:fontFamily="sans-serif-medium"
@@ -26,8 +26,8 @@
 
 
     <View
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/checkview_size"
+        android:layout_height="@dimen/checkview_size"
         tools:text="1"
         android:textColor="@color/steper_view_gray"
         android:fontFamily="sans-serif-medium"
@@ -42,12 +42,12 @@
 
 
     <View
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/checkview_size"
+        android:layout_height="@dimen/checkview_size"
         tools:text="1"
         android:textColor="@color/steper_view_gray"
         android:fontFamily="sans-serif-medium"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:enabled="true"
         android:layout_margin="@dimen/margin_to_prevent_animation_cut"
         android:visibility="invisible"
@@ -60,8 +60,8 @@
 
 
     <View
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/checkview_size"
+        android:layout_height="@dimen/checkview_size"
         tools:text="1"
         android:textColor="@color/steper_view_gray"
         android:fontFamily="sans-serif-medium"
@@ -87,10 +87,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tesfsdfsdte \n uhfsfsdull"
+        tools:text="Ofertas e Campanhas"
+        android:id="@+id/label_text"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:textColor="#4e6178"
+        android:textStyle="bold"
         android:visibility="gone"
+        android:gravity="center"
+        android:lineSpacingExtra="0sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button"/>

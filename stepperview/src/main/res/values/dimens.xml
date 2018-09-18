@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_to_prevent_animation_cut">2dp</dimen>
+    <dimen name="checkview_size">30dp</dimen>
 </resources>

@@ -2,8 +2,9 @@
 <resources>
 
     <string-array name="test_array">
-        <item>teste 1</item>
-        <item>teste 2</item>
+        <item>Carrinho</item>
+        <item>Ofertas e \nCampanhas</item>
+        <item>Frete e \nPagamento</item>
     </string-array>
 
 </resources>

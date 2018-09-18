@@ -14,10 +14,13 @@ import android.transition.TransitionManager
 import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.view.View
+import android.util.DisplayMetrics
+
 
 class StepperView : ConstraintLayout {
 
     val checkViews: MutableList<CheckView> = mutableListOf<CheckView>()
+    val guidelines: MutableList<View> = mutableListOf<View>()
     lateinit var lineView: View
     lateinit var completeLineView: View
     var count: Int = 2
@@ -53,6 +56,7 @@ class StepperView : ConstraintLayout {
 
         createCompleteLine()
         createCheckViews()
+        createGuidelines()
         createLines()
 
         invalidate()
@@ -64,6 +68,11 @@ class StepperView : ConstraintLayout {
         for (i in 0..count) {
             val checkView: CheckView = CheckView(context)
             checkView.setText((i + 1).toString())
+            try {
+                checkView.setLabelText(entries[i].toString())
+            }catch (e: ArrayIndexOutOfBoundsException){
+                e.printStackTrace()
+            }
 
             val lp = LayoutParams(
                     LayoutParams.WRAP_CONTENT,
@@ -119,20 +128,47 @@ class StepperView : ConstraintLayout {
         val constraintSet = ConstraintSet()
         constraintSet.clone(this)
 
-        constraintSet.connect(lineView.id, ConstraintSet.START,  ConstraintSet.PARENT_ID, ConstraintSet.START, 5)
-        constraintSet.connect(lineView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 5)
+        constraintSet.connect(lineView.id, ConstraintSet.START, guidelines[0].id, ConstraintSet.START, 0)
+        constraintSet.connect(lineView.id, ConstraintSet.END, guidelines[count].id, ConstraintSet.END, 0)
 
-        constraintSet.connect(lineView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
-        constraintSet.connect(lineView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+        constraintSet.connect(lineView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, getCompleteLineTopMargin())
 
-        constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews[0].id, ConstraintSet.END, 5)
-        constraintSet.connect(completeLineView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 5)
+        constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines[0].id, ConstraintSet.END,  0)
+        constraintSet.connect(completeLineView.id, ConstraintSet.START, guidelines[0].id, ConstraintSet.START, 0)
 
         constraintSet.applyTo(this)
         this.lineView = lineView
 
     }
 
+    private fun createGuidelines() {
+        for (i in 0..count) {
+            val guideline: View = View(context)
+
+            val lineLayoutParams = LayoutParams(
+                    1,
+                    1)
+
+
+            guideline.id = 88196192 + i
+
+            guideline.layoutParams = lineLayoutParams
+
+            addView(guideline, 0)
+
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(this)
+
+            constraintSet.connect(guideline.id, ConstraintSet.START, checkViews.get(i).id, ConstraintSet.START, 0)
+            constraintSet.connect(guideline.id, ConstraintSet.END, checkViews.get(i).id, ConstraintSet.END, 0)
+            constraintSet.connect(guideline.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+            constraintSet.connect(guideline.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+
+            constraintSet.applyTo(this)
+
+            guidelines.add(guideline)
+        }
+    }
 
 
     private fun createCompleteLine() {
@@ -156,8 +192,7 @@ class StepperView : ConstraintLayout {
         constraintSet.connect(completeLineView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 5)
         constraintSet.connect(completeLineView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
 
-        constraintSet.connect(completeLineView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
-        constraintSet.connect(completeLineView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
+        constraintSet.connect(completeLineView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, getCompleteLineTopMargin())
 
         constraintSet.applyTo(this)
 
@@ -174,7 +209,7 @@ class StepperView : ConstraintLayout {
             } else {
                 val constraintSet = ConstraintSet()
                 constraintSet.clone(this)
-                constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep).id, ConstraintSet.END, 5)
+                constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines.get(currentStep).id, ConstraintSet.END, 5)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     TransitionManager.beginDelayedTransition(this, getCompleteLineTransition(checkViews.get(currentStep)))
@@ -200,7 +235,7 @@ class StepperView : ConstraintLayout {
             } else {
                 val constraintSet = ConstraintSet()
                 constraintSet.clone(this)
-                constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(currentStep - 1).id, ConstraintSet.END, 5)
+                constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines.get(currentStep - 1).id, ConstraintSet.END, 0)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     TransitionManager.beginDelayedTransition(this, getCompleteLineReverseTransition(checkViews.get(currentStep)))
@@ -213,6 +248,11 @@ class StepperView : ConstraintLayout {
         } else {
             checkViews.get(currentStep).unCheckButton()
         }
+    }
+
+    private fun getCompleteLineTopMargin() : Int{
+        val valueInPixels = getResources().getDimension(R.dimen.checkview_size).toInt()
+        return valueInPixels / 2
     }
 
     private fun isInitialStep(): Boolean {
@@ -244,7 +284,7 @@ class StepperView : ConstraintLayout {
         val constraintSet = ConstraintSet()
         constraintSet.clone(this)
 
-        constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(0).id, ConstraintSet.END, 0)
+        constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines.get(0).id, ConstraintSet.END, 0)
 
         constraintSet.applyTo(this)
     }
@@ -389,5 +429,29 @@ class StepperView : ConstraintLayout {
             }
         }
 
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    fun convertDpToPixel(dp: Float): Float {
+        val resources = context.resources
+        val metrics = resources.displayMetrics
+        return dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    /**
+     * This method converts device specific pixels to density independent pixels.
+     *
+     * @param px A value in px (pixels) unit. Which we need to convert into db
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent dp equivalent to px value
+     */
+    fun convertPixelsToDp(px: Float): Float {
+        return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 }

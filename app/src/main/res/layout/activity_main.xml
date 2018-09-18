@@ -26,13 +26,14 @@
 
 
     <com.filipelipan.stepperview.StepperView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:id="@+id/stepper"
-        app:quantity="2"
-        app:titles="@array/test_array"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:quantity="3"
+        app:titles="@array/test_array"
         tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>
