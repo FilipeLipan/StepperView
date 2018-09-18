@@ -9,6 +9,8 @@ An Android CustomView that morphs base on the quantity of steps provided
   ```
     app:quantity="2"
     
+    app:titles="@array/test_array"
+    
     <com.filipelipan.stepperview.StepperView
         android:id="@+id/stepper"
         android:layout_width="300dp"
