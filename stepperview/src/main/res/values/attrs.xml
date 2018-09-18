@@ -8,6 +8,7 @@
 
     <declare-styleable name="StepperView">
         <attr name="quantity" format="integer" />
+        <attr name="titles"/>
     </declare-styleable>
 
 </resources>

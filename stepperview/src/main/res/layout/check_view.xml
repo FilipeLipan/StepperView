@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -17,10 +18,10 @@
         android:textSize="16sp"
         android:enabled="true"
         android:layout_margin="@dimen/margin_to_prevent_animation_cut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/button"
         android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
@@ -33,10 +34,10 @@
         android:textSize="16sp"
         android:enabled="true"
         android:layout_margin="@dimen/margin_to_prevent_animation_cut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/background_view"
         android:background="@drawable/bg_stepper"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
@@ -49,12 +50,13 @@
         android:textSize="16sp"
         android:enabled="true"
         android:layout_margin="@dimen/margin_to_prevent_animation_cut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:visibility="invisible"
         android:id="@+id/check_view_background"
         android:background="@drawable/bg_stepper_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
 
 
     <View
@@ -66,12 +68,30 @@
         android:textSize="16sp"
         android:enabled="true"
         android:layout_margin="@dimen/margin_to_prevent_animation_cut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/mark_view_background"
         android:visibility="invisible"
         android:background="@drawable/bg_stepper_green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
-</FrameLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mark_view_background"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tesfsdfsdte \n uhfsfsdull"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button"/>
+</android.support.constraint.ConstraintLayout>

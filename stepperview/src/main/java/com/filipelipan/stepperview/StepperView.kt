@@ -15,16 +15,16 @@ import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.view.View
 
-
 class StepperView : ConstraintLayout {
 
-    lateinit var checkViews: MutableList<CheckView>
-    lateinit var lineViews: MutableList<View>
+    val checkViews: MutableList<CheckView> = mutableListOf<CheckView>()
+    lateinit var lineView: View
     lateinit var completeLineView: View
-    var count: Int = 2;
-    var currentStep: Int = 0;
+    var count: Int = 2
+    var currentStep: Int = 0
 
 
+    lateinit var entries: Array<CharSequence>
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -42,14 +42,14 @@ class StepperView : ConstraintLayout {
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         val attr = context.obtainStyledAttributes(attrs, R.styleable.StepperView, 0, 0)
 
+        entries = attr.getTextArray(R.styleable.StepperView_titles)
+
         count = attr.getInt(R.styleable.StepperView_quantity, 2) - 1
 
         if (count < 1) {
             count = 1
         }
 
-        checkViews = mutableListOf<CheckView>();
-        lineViews = mutableListOf<View>()
 
         createCompleteLine()
         createCheckViews()
@@ -90,59 +90,49 @@ class StepperView : ConstraintLayout {
         }
 
         for (i in 0..count) {
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(this)
+
             if (!(i == count || i == 0)) {
-                val constraintSet = ConstraintSet()
-                constraintSet.clone(this)
                 constraintSet.connect(checkViews.get(i).id, ConstraintSet.END, checkViews.get(i + 1).id, ConstraintSet.START, 0)
-                constraintSet.applyTo(this)
             }
+
+            constraintSet.applyTo(this)
         }
     }
 
     private fun createLines() {
-        for (i in 0..count) {
-            val lineView: View = View(context)
+        val lineView: View = View(context)
 
-            val lineLayoutParams = LayoutParams(
-                    0,
-                    6)
+        val lineLayoutParams = LayoutParams(
+                0,
+                6)
 
-            lineView.id = 1751651651 + i
+        lineView.id = 1751651651
 
-            lineView.setBackgroundColor(ContextCompat.getColor(context, R.color.gray8b99aa))
+        lineView.setBackgroundColor(ContextCompat.getColor(context, R.color.gray8b99aa))
 
-            lineView.layoutParams = lineLayoutParams
+        lineView.layoutParams = lineLayoutParams
 
+        addView(lineView, 0)
 
-            addView(lineView, 0)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(this)
 
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(this)
+        constraintSet.connect(lineView.id, ConstraintSet.START,  ConstraintSet.PARENT_ID, ConstraintSet.START, 5)
+        constraintSet.connect(lineView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 5)
 
-            if (i == 0) {
-                constraintSet.connect(lineView.id, ConstraintSet.START, checkViews.get(i).id, ConstraintSet.START, 5)
-                constraintSet.connect(lineView.id, ConstraintSet.END, checkViews.get(i + 1).id, ConstraintSet.END, 5)
+        constraintSet.connect(lineView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+        constraintSet.connect(lineView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0)
 
-                constraintSet.connect(lineView.id, ConstraintSet.TOP, checkViews.get(i).id, ConstraintSet.TOP, 0)
-                constraintSet.connect(lineView.id, ConstraintSet.BOTTOM, checkViews.get(i).id, ConstraintSet.BOTTOM, 0)
+        constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews[0].id, ConstraintSet.END, 5)
+        constraintSet.connect(completeLineView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 5)
 
-                constraintSet.connect(completeLineView.id, ConstraintSet.END, checkViews.get(i).id, ConstraintSet.END, 0)
+        constraintSet.applyTo(this)
+        this.lineView = lineView
 
-            } else if (i == count) {
-                removeView(lineView)
-            } else {
-                constraintSet.connect(lineView.id, ConstraintSet.START, checkViews.get(i).id, ConstraintSet.START, 5)
-                constraintSet.connect(lineView.id, ConstraintSet.END, checkViews.get(i + 1).id, ConstraintSet.END, 5)
-
-                constraintSet.connect(lineView.id, ConstraintSet.TOP, checkViews.get(i).id, ConstraintSet.TOP, 0)
-                constraintSet.connect(lineView.id, ConstraintSet.BOTTOM, checkViews.get(i).id, ConstraintSet.BOTTOM, 0)
-            }
-
-            constraintSet.applyTo(this)
-
-            lineViews.add(lineView)
-        }
     }
+
 
 
     private fun createCompleteLine() {
