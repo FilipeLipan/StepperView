@@ -45,13 +45,13 @@ class CheckView  : LinearLayout {
         val text =  attr.getString(R.styleable.CheckView_cv_text)
 
 
-        button.setText(text)
+        textview.setText(text)
 
         attr.recycle()
     }
 
     fun setText(text :String ){
-        button.setText(text)
+        textview.setText(text)
     }
 
     fun setLabelText(text: String){
@@ -63,7 +63,7 @@ class CheckView  : LinearLayout {
         status = STATUS_UNCHECK
 
         background_view.background = ContextCompat.getDrawable(context , R.drawable.bg_stepper)
-        button.setTextColor(ContextCompat.getColor(context, R.color.steper_view_gray))
+        textview.setTextColor(ContextCompat.getColor(context, R.color.steper_view_gray))
 
         check_view_background.visibility = View.INVISIBLE
         mark_view_background.visibility = View.INVISIBLE
@@ -84,7 +84,7 @@ class CheckView  : LinearLayout {
         set.interpolator = OvershootInterpolator(1.5f);
         set.start()
 
-        button.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+        textview.setTextColor(ContextCompat.getColor(context, android.R.color.white))
     }
 
     fun unChecked() : Boolean {
@@ -116,7 +116,7 @@ class CheckView  : LinearLayout {
         set.interpolator = OvershootInterpolator(1.5f);
         set.start()
 
-        button.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+        textview.setTextColor(ContextCompat.getColor(context, android.R.color.white))
     }
 
 
