@@ -8,20 +8,6 @@
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="@dimen/checkview_size"
-        android:layout_height="@dimen/checkview_size"
-        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
-        android:background="@android:color/transparent"
-        android:enabled="true"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@color/steper_view_gray"
-        android:textSize="@dimen/default_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1" />
 
 
     <View
@@ -97,4 +83,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button"
         tools:text="Ofertas e Campanhas" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="@dimen/checkview_size"
+        android:layout_height="@dimen/checkview_size"
+        android:layout_margin="@dimen/margin_to_prevent_animation_cut"
+        android:background="@android:color/transparent"
+        android:enabled="true"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/steper_view_gray"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
+
 </android.support.constraint.ConstraintLayout>
