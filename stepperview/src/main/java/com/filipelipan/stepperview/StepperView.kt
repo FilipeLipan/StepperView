@@ -27,7 +27,7 @@ class StepperView : ConstraintLayout {
     var currentStep: Int = 0
 
 
-    lateinit var entries: Array<CharSequence>
+    var entries: Array<CharSequence>? = null
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -69,7 +69,9 @@ class StepperView : ConstraintLayout {
             val checkView: CheckView = CheckView(context)
             checkView.setText((i + 1).toString())
             try {
-                checkView.setLabelText(entries[i].toString())
+                entries?.let {
+                    checkView.setLabelText(it[i].toString())
+                }
             }catch (e: ArrayIndexOutOfBoundsException){
                 e.printStackTrace()
             }
