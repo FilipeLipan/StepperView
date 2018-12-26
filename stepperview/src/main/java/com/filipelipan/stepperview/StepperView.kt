@@ -26,6 +26,7 @@ class StepperView : ConstraintLayout {
     var count: Int = 2
     var currentStep: Int = 0
 
+    public var stepperClickListeners :StepperClickListeners? = null
 
     var entries: Array<CharSequence>? = null
 
@@ -52,7 +53,6 @@ class StepperView : ConstraintLayout {
         if (count < 1) {
             count = 1
         }
-
 
         createCompleteLine()
         createCheckViews()
@@ -94,6 +94,11 @@ class StepperView : ConstraintLayout {
                 constraintSet.connect(checkView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
             } else {
                 constraintSet.connect(checkView.id, ConstraintSet.START, checkViews.get(i - 1).id, ConstraintSet.END, 0)
+            }
+
+            checkView.setOnClickListener {
+                stepperClickListeners?.onStepClick(i + 1)
+                goToStep(i)
             }
 
             checkViews.add(checkView)
@@ -455,5 +460,36 @@ class StepperView : ConstraintLayout {
      */
     fun convertPixelsToDp(px: Float): Float {
         return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    interface StepperClickListeners{
+        fun onStepClick(position :Int)
+    }
+
+    fun goToStep(position :Int){
+
+        for(i in 0..position){
+            if(!checkViews.get(i).isChecked()){
+                checkViews.get(i).markAsFinished()
+            }
+        }
+
+        for(i in position + 1..checkViews.size - 1){
+            checkViews.get(i).unCheckButton()
+        }
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(this)
+
+        if(position > 0){
+            constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines.get(position).id, ConstraintSet.END, 5)
+        }else{
+            constraintSet.connect(completeLineView.id, ConstraintSet.END, guidelines[0].id, ConstraintSet.END,  0)
+            constraintSet.connect(completeLineView.id, ConstraintSet.START, guidelines[0].id, ConstraintSet.START, 0)
+        }
+
+        constraintSet.applyTo(this)
+
+        currentStep = position + 1
     }
 }
