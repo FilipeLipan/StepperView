@@ -98,7 +98,6 @@ class StepperView : ConstraintLayout {
 
             checkView.setOnClickListener {
                 stepperClickListeners?.onStepClick(i + 1)
-                goToStep(i)
             }
 
             checkViews.add(checkView)
